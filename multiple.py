@@ -11,10 +11,12 @@ links = [
 ]
 
 for link in links:
+    # Check that the link is a valid YouTube link
     if not re.match(r'^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$', link):
         print(f"Error: Invalid YouTube link: {link}")
         continue
 
+    # Extract the video ID from the link
     video_id = None
     if "/watch?v=" in link:
         video_id = link.split("/watch?v=")[1][:11]
@@ -27,6 +29,7 @@ for link in links:
         print(f"Error: Unable to extract video ID from link: {link}")
         continue
 
+    # Create a YouTube object and extract the audio stream
     try:
         yt = YouTube("https://www.youtube.com/watch?v=" + video_id)
         audio_stream = yt.streams.filter(only_audio=True).first()
